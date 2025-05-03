@@ -1,8 +1,8 @@
 from PyQt6.QtCore import QObject, pyqtSignal, QThread, QMutex
-from core.downloader import Downloader, DownloadState
+from .downloader import Downloader
+from .models import DownloadState, PauseEvent
 import time
 import os
-
 
 class DownloadWorker(QObject):
     progress_updated = pyqtSignal(str, int)
@@ -98,23 +98,6 @@ class DownloadWorker(QObject):
             return self._is_paused
         finally:
             self.mutex.unlock()
-
-class PauseEvent:
-    def __init__(self):
-        self._is_set = False
-        self._is_cancelled = False
-
-    def set(self):
-        self._is_set = True
-
-    def clear(self):
-        self._is_set = False
-
-    def is_set(self):
-        return self._is_set and not self._is_cancelled
-
-    def cancel(self):
-        self._is_cancelled = True
 
 class DownloadManager(QObject):
     task_progress = pyqtSignal(str, int)

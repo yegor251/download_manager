@@ -4,15 +4,7 @@ import os
 from urllib.parse import urlparse
 import certifi
 import time
-from enum import Enum, auto
-
-
-class DownloadState(Enum):
-    RUNNING = auto()
-    PAUSED = auto()
-    COMPLETED = auto()
-    FAILED = auto()
-
+from .models import DownloadState
 
 class Downloader:
     @staticmethod
